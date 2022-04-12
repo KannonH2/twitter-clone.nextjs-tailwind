@@ -16,8 +16,8 @@ import SidebarLink from '../components/SidebarLink'
 function Sidebar() {
   return (
     <div
-      className="fixed hidden h-full flex-col 
-    items-center p-2 sm:flex xl:w-[340px] xl:items-start"
+      className="fixed h-full flex-col 
+    items-center p-2 flex xl:w-[340px] xl:items-start"
     >
       <div
         className="hoverAnimation flex h-14 w-14 items-center 
@@ -46,8 +46,8 @@ function Sidebar() {
         <img src="https://pbs.twimg.com/profile_images/1513475158249549825/fJ9soxtg_400x400.png"
          alt=""
          className='h-10 w-10 rounded-full xl:mr-2.5'/>
-        <div className="hidden xl:inline leading-5 ">
-          <h4 className='font.bold'>Devit</h4>
+        <div className="hidden xl:inline leading-5">
+          <h4 className="font-bold">Devit</h4>
           <p className="text-[#6e767d]">@devit</p>
         </div>
         <DotsHorizontalIcon className="h-5 hidden xl:inline ml-10" />
