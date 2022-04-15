@@ -55,7 +55,7 @@ function PostPage({ providers, trendingResults, followResults }) {
     <div>
       <Head>
         <title>
-          {post?.username} on Devti: "{post?.text}"
+          {post?.username} on Devitter: "{post?.text}"
         </title>
         <link rel="icon" href="/favicon.ico" />
       </Head>

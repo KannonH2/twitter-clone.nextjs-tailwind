@@ -17,7 +17,7 @@ export default function Home({ trendingResults, followResults, providers }) {
   return (
     <div>
       <Head>
-        <title>Devti</title>
+        <title>Devitter</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
