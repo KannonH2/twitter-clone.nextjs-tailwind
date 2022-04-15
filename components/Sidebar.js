@@ -13,9 +13,12 @@ import {
 } from '@heroicons/react/outline'
 import SidebarLink from '../components/SidebarLink'
 import {signOut, useSession } from 'next-auth/react'
+import { useRouter } from 'next/router'
 
 function Sidebar() {
   const {data : session} = useSession();
+  const router = useRouter();
+
   return (
     <div
       className="fixed h-full flex-col 
@@ -25,10 +28,10 @@ function Sidebar() {
         className="hoverAnimation flex h-14 w-14 items-center 
       justify-center p-0 xl:ml-24"
       >
-        <Image src="/white-logo.png" height={30} width={40} />
+        <Image src="/white-logo.png" height={30} width={40} onClick={() => router.push("/")}/>
       </div>
       <div className="mt-4 mb-2.5 space-y-2.5 xl:ml-24">
-        <SidebarLink text="Home" Icon={HomeIcon} active />
+        <SidebarLink text="Home" Icon={HomeIcon} active onClick={() => router.push("/")}/>
         <SidebarLink text="Explore" Icon={HashtagIcon} />
         <SidebarLink text="Notifications" Icon={BellIcon} />
         <SidebarLink text="Messages" Icon={InboxIcon} />

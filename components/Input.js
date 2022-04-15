@@ -129,7 +129,7 @@ function Input() {
             // onDragEnter={handleDragEnter}
             // onDragLeave={handleDragLeave}
             // onDrop={handleDrop}
-            placeholder="What’s happening?"
+            placeholder="What's happening?"
             className="min-h-[50px] w-full bg-transparent text-lg tracking-wide 
             text-[#d9d9d9] placeholder-gray-500 outline-none"
           />

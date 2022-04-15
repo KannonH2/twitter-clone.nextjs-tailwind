@@ -21,13 +21,22 @@ import {
 import { useRouter } from 'next/router'
 import Moment from 'react-moment'
 
+const COMPOSE_STATES = {
+  USER_NOT_KNOWN: 0,
+  LOADING: 1,
+  SUCCESS: 2,
+  ERROR: -1,
+}
+
 function Modal() {
   const { data: session } = useSession()
+  const [status, setStatus] = useState(COMPOSE_STATES.USER_NOT_KNOWN)
   const [isOpen, setIsOpen] = useRecoilState(modalState)
   const [postId, setPostId] = useRecoilState(postIdState)
   const [post, setPost] = useState()
   const [comment, setComment] = useState('')
   const router = useRouter()
+
 
   useEffect(
     () =>
@@ -39,8 +48,9 @@ function Modal() {
 
   const sendComment = async (e) => {
     e.preventDefault()
+    setStatus(COMPOSE_STATES.LOADING)
     await addDoc(collection(db, 'posts', postId, 'comments'), {
-      commet: comment,
+      comment: comment,
       username: session.user.name,
       tag: session.user.tag,
       userImg: session.user.image,
@@ -49,9 +59,13 @@ function Modal() {
 
     setIsOpen(false)
     setComment('')
+  
 
-    router.push(`/${postId}`)
+    router.push(`/posts/${postId}`)
   }
+
+  //con esta variable usando los COMPOSE_STATES, se evita que se hagan mas de 1 click en el boton de enviar
+  const isButtonDisabled = !comment.length || status === COMPOSE_STATES.LOADING
 
   return (
     <Transition.Root show={isOpen} as={Fragment}>
@@ -155,7 +169,7 @@ function Modal() {
                           disabled:cursor-default disabled:opacity-50 disabled:hover:bg-[#1d9bf0]"
                           type="submit"
                           onClick={sendComment}
-                          disabled={!comment.trim()}
+                          disabled={isButtonDisabled}
                         >
                           Reply
                         </button>
