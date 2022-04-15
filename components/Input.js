@@ -18,6 +18,7 @@ import {
   updateDoc,
 } from '@firebase/firestore'
 import { getDownloadURL, ref, uploadString } from '@firebase/storage'
+import { useSession } from 'next-auth/react'
 // import { signOut, useSession } from 'next-auth/react'
 // import dynamic from 'next/dynamic'
 
@@ -30,6 +31,7 @@ const DRAG_IMAGE_STATES = {
 }
 
 function Input() {
+  const { data: session } = useSession()
   const [input, setInput] = useState('')
   const [selectedFile, setSelectedFile] = useState(null)
   const [showEmojis, setShowEmojis] = useState(false)
@@ -62,10 +64,10 @@ function Input() {
     setLoading(true)
 
     const docRef = await addDoc(collection(db, 'posts'), {
-      // id: session.user.uid,
-      // username: session.user.name,
-      // userImg: session.user.image,
-      // tag: session.user.tag,
+      id: session.user.uid,
+      username: session.user.name,
+      userImg: session.user.image,
+      tag: session.user.tag,
       text: input,
       timestamp: serverTimestamp(),
     })
@@ -114,7 +116,7 @@ function Input() {
   return (
     <div className={`overflow-y flex space-x-3 border-b border-gray-700 p-3 ${loading && 'opacity-60'}`}>
       <img
-        src="https://pbs.twimg.com/profile_images/1513475158249549825/fJ9soxtg_400x400.png"
+        src={session.user.image}
         alt=""
         className="h-11 w-11 cursor-pointer rounded-full xl:mr-2.5"
       />
@@ -150,7 +152,7 @@ function Input() {
         </div>
         {!loading && (
           <div className="flex items-center justify-between pt-2.5">
-            {/* el evento onClick hacer referenca al input escondido, para que el icono custom funcione al presionarlo */}
+            {/* el evento onClick hace referenca al input escondido, para que el icono custom funcione al presionarlo */}
             <div className="flex items-center">
               <div
                 className="icon"
