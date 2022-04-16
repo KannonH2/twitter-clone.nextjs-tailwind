@@ -67,7 +67,7 @@ function PostPage({ providers, trendingResults, followResults }) {
             <div className="hoverAnimation flex h-9 w-9 items-center justify-center xl:px-0">
               <ArrowLeftIcon
                 className="h-5 text-white"
-                onClick={() => router.push('/')}
+                onClick={() => router.back()}
               />
             </div>
             Devit

@@ -21,6 +21,7 @@ import {
 import { useRouter } from 'next/router'
 import Moment from 'react-moment'
 
+
 const COMPOSE_STATES = {
   USER_NOT_KNOWN: 0,
   LOADING: 1,
@@ -149,7 +150,7 @@ function Modal() {
                       <div className="flex items-center justify-between pt-2.5">
                         <div className="flex items-center">
                           <div className="icon">
-                            <PhotographIcon className="h-[22px] text-[#1d9bf0]" />
+                            <PhotographIcon className="h-[22px] text-[#1d9bf0]"/>
                           </div>
 
                           <div className="icon rotate-90">
