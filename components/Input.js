@@ -1,117 +1,82 @@
 import {
-  PhotographIcon,
-  XIcon,
+  CalendarIcon,
   ChartBarIcon,
   EmojiHappyIcon,
-  CalendarIcon,
-} from '@heroicons/react/outline'
-import React from 'react'
-import { useState, createRef } from 'react'
-import 'emoji-mart/css/emoji-mart.css'
-import { Picker } from 'emoji-mart'
-import { db, storage, uploadImage } from '../firebase'
+  PhotographIcon,
+  XIcon,
+} from "@heroicons/react/outline";
+import { useRef, useState } from "react";
+import { db, storage } from "../firebase";
 import {
   addDoc,
   collection,
   doc,
   serverTimestamp,
   updateDoc,
-} from '@firebase/firestore'
-import { getDownloadURL, ref, uploadString } from '@firebase/storage'
-import { useSession } from 'next-auth/react'
-// import { signOut, useSession } from 'next-auth/react'
-// import dynamic from 'next/dynamic'
-
-const DRAG_IMAGE_STATES = {
-  ERROR: -1,
-  NONE: 0,
-  DRAG_OVER: 1,
-  UPLOADING: 2,
-  COMPLETE: 3,
-}
+} from "@firebase/firestore";
+import { getDownloadURL, ref, uploadString } from "@firebase/storage";
+import { signOut, useSession } from "next-auth/react";
+import dynamic from "next/dynamic";
+// const Picker = dynamic(() => import("emoji-picker-react"), { ssr: false });
+import { Picker } from "emoji-mart";
+import "emoji-mart/css/emoji-mart.css";
 
 function Input() {
-  const { data: session } = useSession()
-  const [input, setInput] = useState('')
-  const [selectedFile, setSelectedFile] = useState(null)
-  const [showEmojis, setShowEmojis] = useState(false)
-  const filePickerRef = createRef(null)
-  const [loading, setLoading] = useState(false)
-  const [drag, setDrag] = useState(DRAG_IMAGE_STATES.NONE)
-  const [task, setTask] = useState(null)
-
-  const addEmoji = (e) => {
-    let sym = e.unified.split('-')
-    let codesArray = []
-    sym.forEach((el) => codesArray.push('0x' + el))
-    let emoji = String.fromCodePoint(...codesArray)
-    setInput(input + emoji)
-  }
-
-  const addImageToPost = (e) => {
-    const reader = new FileReader()
-    if (e.target.files[0]) {
-      reader.readAsDataURL(e.target.files[0])
-    }
-
-    reader.onload = (readerEvent) => {
-      setSelectedFile(readerEvent.target.result)
-    }
-  }
+  const { data: session } = useSession();
+  const [input, setInput] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const filePickerRef = useRef(null);
+  const [showEmojis, setShowEmojis] = useState(false);
 
   const sendPost = async () => {
-    if (loading) return
-    setLoading(true)
+    if (loading) return;
+    setLoading(true);
 
-    const docRef = await addDoc(collection(db, 'posts'), {
+    const docRef = await addDoc(collection(db, "posts"), {
       id: session.user.uid,
       username: session.user.name,
       userImg: session.user.image,
       tag: session.user.tag,
       text: input,
       timestamp: serverTimestamp(),
-    })
-    const imageRef = ref(storage, `posts/${docRef.id}/image`)
+    });
+
+    const imageRef = ref(storage, `posts/${docRef.id}/image`);
 
     if (selectedFile) {
-      await uploadString(imageRef, selectedFile, 'data_url').then(async () => {
-        const downloadUrl = await getDownloadURL(imageRef)
-        await updateDoc(doc(db, `posts`, docRef.id), {
-          image: downloadUrl,
-        })
-      })
+      await uploadString(imageRef, selectedFile, "data_url").then(async () => {
+        const downloadURL = await getDownloadURL(imageRef);
+        await updateDoc(doc(db, "posts", docRef.id), {
+          image: downloadURL,
+        });
+      });
     }
-    setLoading(false)
-    setInput('')
-    setSelectedFile(null)
-    setShowEmojis(false)
-  }
 
-  // const handleDragEnter = (e) => {
-  //   e.preventDefault()
-  //   setDrag(DRAG_IMAGE_STATES.DRAG_OVER)
-  // }
+    setLoading(false);
+    setInput("");
+    setSelectedFile(null);
+    setShowEmojis(false);
+  };
 
-  // const handleDragLeave = (e) => {
-  //   e.preventDefault()
-  //   setDrag(DRAG_IMAGE_STATES.NONE)
-  // }
+  const addImageToPost = (e) => {
+    const reader = new FileReader();
+    if (e.target.files[0]) {
+      reader.readAsDataURL(e.target.files[0]);
+    }
 
-  // const uploadImage = (file) => {
-  //   const task = storage.ref(`posts/${session.user.uid}/image`).put(file)
-  //   setDrag(DRAG_IMAGE_STATES.UPLOADING)
-  //   return task
-  // }
+    reader.onload = (readerEvent) => {
+      setSelectedFile(readerEvent.target.result);
+    };
+  };
 
-  // const handleDrop = (e) => {
-  //   e.preventDefault()
-  //   setDrag(DRAG_IMAGE_STATES.NONE)
-  //   const file = e.dataTransfer.files[0]
-  //   console.log()
-
-  //   const task = uploadImage(file)
-  //   setTask(task)
-  // }
+  const addEmoji = (e) => {
+    let sym = e.unified.split("-");
+    let codesArray = [];
+    sym.forEach((el) => codesArray.push("0x" + el));
+    let emoji = String.fromCodePoint(...codesArray);
+    setInput(input + emoji);
+  };
 
   return (
     <div className={`overflow-y flex space-x-3 border-b border-gray-700 p-3 ${loading && 'opacity-60'}`}>

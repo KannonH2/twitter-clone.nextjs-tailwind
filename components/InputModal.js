@@ -31,14 +31,6 @@ const COMPOSE_STATES = {
   ERROR: -1,
 }
 
-const DRAG_IMAGE_STATES = {
-  ERROR: -1,
-  NONE: 0,
-  DRAG_OVER: 1,
-  UPLOADING: 2,
-  COMPLETE: 3,
-}
-
 function InputModal({ modalIsOpen, setModalIsOpen }) {
   const { data: session } = useSession()
   const [input, setInput] = useState('')
@@ -47,12 +39,8 @@ function InputModal({ modalIsOpen, setModalIsOpen }) {
   const [showEmojis, setShowEmojis] = useState(false)
   const filePickerRef = createRef(null)
   const [loading, setLoading] = useState(false)
-  const [drag, setDrag] = useState(DRAG_IMAGE_STATES.NONE)
-  const [task, setTask] = useState(null)
   const [comment, setComment] = useState('')
   const router = useRouter()
-
-
 
   const addEmoji = (e) => {
     let sym = e.unified.split('-')
@@ -112,7 +100,7 @@ function InputModal({ modalIsOpen, setModalIsOpen }) {
       className="inline-block transform overflow-hidden rounded-2xl bg-black text-left   
               align-bottom shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-xl sm:align-middle"
     >
-      <div className="flex items-center border-b border-gray-700 px-1.5 py-2">
+      <div className="flex items-center px-1.5 py-2">
         <div
           className="hoverAnimation flex h-9 w-9 items-center justify-center xl:px-0"
           onClick={() => setIsOpen(false)}
@@ -122,10 +110,10 @@ function InputModal({ modalIsOpen, setModalIsOpen }) {
       </div>
       <div
         className="inline-block transform overflow-hidden rounded-2xl bg-black text-left   
-              align-bottom shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-xl sm:align-middle"
+              align-bottom shadow-xl transition-all sm:w-full sm:max-w-xl sm:align-middle"
       >
         <div
-          className={`overflow-y flex space-x-3 border-b border-gray-700 p-3 ${
+          className={`overflow-y flex space-x-3 p-3 ${
             loading && 'opacity-60'
           }`}
         >
@@ -140,11 +128,8 @@ function InputModal({ modalIsOpen, setModalIsOpen }) {
             >
               <textarea
                 value={input}
-                rows="2"
+                rows="6"
                 onChange={(e) => setInput(e.target.value)}
-                // onDragEnter={handleDragEnter}
-                // onDragLeave={handleDragLeave}
-                // onDrop={handleDrop}
                 placeholder="What's happening?"
                 className="min-h-[50px] w-full bg-transparent text-lg tracking-wide 
             text-[#d9d9d9] placeholder-gray-500 outline-none"
@@ -206,6 +191,7 @@ function InputModal({ modalIsOpen, setModalIsOpen }) {
                         marginLeft: -40,
                         maxWidth: '320px',
                         borderRadius: '20px',
+                        zIndex: '10',
                       }}
                       theme="dark"
                     />
