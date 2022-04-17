@@ -32,4 +32,8 @@
     @apply w-48 h-48 rounded rotate-[-40deg] bg-[#000000] absolute bottom-0 left-0 -translate-x-full 
     ease-out duration-500 transition-all translate-y-full mb-9 ml-9 group-hover:ml-0 group-hover:mb-32 group-hover:translate-x-0;
   }
+
+  .modalStyle {
+    @apply bg-[#000000] bg-opacity-[50%] fixed top-7 left-[30%] w-full h-full z-50 backdrop-blur-none;
+  }
 }
