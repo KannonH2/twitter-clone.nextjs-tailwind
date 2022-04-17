@@ -52,6 +52,8 @@ function InputModal({ modalIsOpen, setModalIsOpen }) {
   const [comment, setComment] = useState('')
   const router = useRouter()
 
+
+
   const addEmoji = (e) => {
     let sym = e.unified.split('-')
     let codesArray = []
@@ -97,6 +99,12 @@ function InputModal({ modalIsOpen, setModalIsOpen }) {
     setInput('')
     setSelectedFile(null)
     setShowEmojis(false)
+  }
+
+  const handleClickSend = (e) => {
+    e.preventDefault()
+    sendPost()
+    setModalIsOpen(false)
   }
 
   return (
@@ -207,8 +215,7 @@ function InputModal({ modalIsOpen, setModalIsOpen }) {
                   className="rounded-full bg-[#1d9bf0] px-4 py-1.5 font-bold text-white shadow-md
                       hover:bg-[#1a8cd8] disabled:cursor-default disabled:opacity-50 disabled:hover:bg-[#1d9bf0]"
                   disabled={!input.trim() && !selectedFile}
-                  onClick={sendPost}
-                  setModalIsOpen={false}
+                  onClick={handleClickSend}
                 >
                   Devit
                 </button>

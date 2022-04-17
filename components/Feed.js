@@ -27,8 +27,8 @@ function Feed() {
     text-white xl:ml-[370px]"
     >
       <div
-        className="sticky top-0 z-50 flex items-center justify-between border-b
-       border-gray-700 bg-black py-2 px-3 text-[#d9d9d9]"
+        className="sticky top-0  flex items-center justify-between
+        bg-black py-2 px-3 text-[#d9d9d9] bg-opacity-90 "
       >
         <h2 className="text-lg font-bold sm:text-xl">Home</h2>
         <div className="hoverAnimation x-9 ml-auto h-9 items-center justify-center p-2 xl:px-0">

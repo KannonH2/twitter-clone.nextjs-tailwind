@@ -22,23 +22,23 @@ function Sidebar() {
   const router = useRouter()
   const [modalIsOpen, setModalIsOpen] = useState(false)
 
-  // const customStyles = {
-  //   content: {
-  //     top: '7.8%',
-  //     left: '46.5%',
-  //     right: 'auto',
-  //     bottom: 'auto',
-  //     marginRight: '-100%',
-  //     transform: 'translate(-35%, -20%)',
-  //     borderRadius: '10px',
-  //     width: '50%',
-  //     backgroundColor: 'transparent',
-  //     border: 'none',
-  //     background: 'transparent',
-  //     boxShadow: 'none',
-      
-  //   },
-  // }
+  const customStyles = {
+    content: {
+      top: '10%',
+      left: '50%',
+      right: 'auto',
+      bottom: 'auto',
+      marginRight: '-100%',
+      transform: 'translate(-35%, -20%)',
+      borderRadius: '50px',
+      width: '50%',
+      backgroundColor: 'transparent',
+      border: 'none',
+      background: 'transparent',
+      boxShadow: 'none',
+      opacity: '100%',
+    },
+  }
 
   return (
     <div
@@ -81,7 +81,8 @@ function Sidebar() {
         Devit
       </button>
       <Modal
-        className="modalStyle"
+        //className="modalStyle"
+        style={customStyles}
         isOpen={modalIsOpen}
         onRequestClose={() => setModalIsOpen(false)}
       >
